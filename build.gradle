@@ -1,0 +1,93 @@
+repositories {
+    mavenCentral()
+    jcenter()
+    mavenLocal()
+}
+
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath("net.serenity-bdd:serenity-gradle-plugin:2.0.71")
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.0"
+        classpath "gradle.plugin.com.github.sherter.google-java-format:google-java-format-gradle-plugin:0.9"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'net.serenity-bdd.aggregator'
+apply plugin: 'com.github.sherter.google-java-format'
+apply plugin: 'org.sonarqube'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+    verifyGoogleJavaFormat.dependsOn(tasks.googleJavaFormat)
+}
+
+test {
+    systemProperties = System.properties
+    systemProperty "cucumber.options", System.getProperty("cucumber.options")
+}
+
+tasks.withType(Test) {
+    systemProperty "file.encoding", "UTF-8"
+    systemProperties = System.properties
+    maxParallelForks = Runtime.runtime.availableProcessors()
+}
+
+ext {
+    serenityVersion = '2.0.71'
+    serenityCucumberVersion = '1.9.51'
+    seleniumVersion = '3.141.59'
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.assertj:assertj-core:3.13.2'
+    testImplementation 'org.slf4j:slf4j-api:1.7.2'
+    testImplementation 'org.slf4j:slf4j-log4j12:1.7.2'
+
+    implementation "org.seleniumhq.selenium:selenium-java:${seleniumVersion}"
+    implementation "org.seleniumhq.selenium:selenium-support:${seleniumVersion}"
+    implementation "org.seleniumhq.selenium:selenium-api:${seleniumVersion}"
+    implementation "org.seleniumhq.selenium:selenium-remote-driver:${seleniumVersion}"
+
+    implementation "net.serenity-bdd:serenity-core:${serenityVersion}"
+    implementation "net.serenity-bdd:serenity-junit:${serenityVersion}"
+    implementation "net.serenity-bdd:serenity-screenplay:${serenityVersion}"
+    implementation "net.serenity-bdd:serenity-screenplay-webdriver:${serenityVersion}"
+    implementation "net.serenity-bdd:serenity-cucumber:${serenityCucumberVersion}"
+    implementation "net.serenity-bdd:serenity-ensure:${serenityVersion}"
+
+    implementation 'io.github.bonigarcia:webdrivermanager:6.4.0'
+
+    implementation 'org.apache.poi:poi-ooxml:5.2.3'
+
+    implementation('log4j:log4j:1.2.17') {
+        exclude group: 'com.sun.jmx', module: 'jmxri'
+        exclude group: 'com.sun.jdmk', module: 'jmxtools'
+        exclude group: 'javax.jms', module: 'jms'
+    }
+}
+
+configurations.all {
+    resolutionStrategy {
+        force "org.seleniumhq.selenium:selenium-java:${seleniumVersion}"
+        force "org.seleniumhq.selenium:selenium-api:${seleniumVersion}"
+        force "org.seleniumhq.selenium:selenium-support:${seleniumVersion}"
+        force "org.seleniumhq.selenium:selenium-remote-driver:${seleniumVersion}"
+    }
+}
+
+gradle.startParameter.continueOnFailure = true
+test.finalizedBy('aggregate')

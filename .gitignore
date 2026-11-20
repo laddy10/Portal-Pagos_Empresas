@@ -1,0 +1,30 @@
+
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Serenity BDD
+target/
+.serenity/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+out/
+
+# Java
+*.class
+*.log
+hs_err_pid*
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos locales y credenciales
+.env
+.env.*
+!.env.example
+*.keystore
+*.jks
