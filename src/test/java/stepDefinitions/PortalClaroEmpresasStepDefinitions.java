@@ -8,6 +8,7 @@ import cucumber.api.java.es.Dado;
 import cucumber.api.java.es.Entonces;
 import interactions.ProbarRecaptchaEdgeConClicNormal;
 import interactions.ProbarRecaptchaFirefoxConClicNormal;
+import interactions.ResolverRecaptcha;
 import java.net.URI;
 import net.serenitybdd.screenplay.abilities.BrowseTheWeb;
 import net.serenitybdd.screenplay.actors.OnStage;
@@ -144,5 +145,21 @@ public class PortalClaroEmpresasStepDefinitions {
         "El campo número de cuenta debería contener el valor ingresado",
         numeroCuentaActual,
         is(numeroCuentaEsperado));
+  }
+
+  @Cuando("^resuelve el reCAPTCHA usando la sesión persistente$")
+  public void resolverRecaptchaConSesionPersistente() {
+    OnStage.theActorInTheSpotlight().attemptsTo(ResolverRecaptcha.enElCheckbox());
+  }
+
+  @Entonces("^el reCAPTCHA debería quedar aprobado$")
+  public void verificarRecaptchaAprobado() {
+    Boolean aprobado =
+        OnStage.theActorInTheSpotlight().recall(ResolverRecaptcha.RECAPTCHA_APROBADO);
+    Boolean requirioDesafio =
+        OnStage.theActorInTheSpotlight().recall(ResolverRecaptcha.RECAPTCHA_REQUIRIO_DESAFIO);
+
+    System.out.println("RECAPTCHA_REQUIRIO_DESAFIO=" + requirioDesafio);
+    assertThat("El reCAPTCHA debería tener aria-checked=true", aprobado, is(true));
   }
 }

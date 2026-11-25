@@ -35,6 +35,10 @@ tasks.withType(JavaCompile) {
 }
 
 test {
+    // Las pruebas de diagnostico (Edge/Firefox directos) solo corren con -Pdiagnostico
+    if (!project.hasProperty('diagnostico')) {
+        exclude 'diagnostico/**'
+    }
     systemProperties = System.properties
     systemProperty "cucumber.options", System.getProperty("cucumber.options")
 }

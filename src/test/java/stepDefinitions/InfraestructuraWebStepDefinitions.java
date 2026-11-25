@@ -23,6 +23,12 @@ public class InfraestructuraWebStepDefinitions {
     if (scenario.getSourceTagNames().contains(TAG_RECAPTCHA_FIREFOX)) {
       WebDriverManager.firefoxdriver().setup();
       System.setProperty("webdriver.driver", "firefox");
+    } else if (Boolean.parseBoolean(System.getProperty("chrome.perfil.persistente", "true"))) {
+      // Chrome con perfil persistente: ver drivers.ChromePerfilPersistente
+      System.setProperty("webdriver.driver", "provided");
+      System.setProperty("webdriver.provided.type", "chromepersistente");
+      System.setProperty(
+          "webdriver.provided.chromepersistente", "drivers.ChromePerfilPersistente");
     } else {
       WebDriverManager.chromedriver().setup();
       System.setProperty("webdriver.driver", "chrome");
