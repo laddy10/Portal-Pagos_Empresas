@@ -48,3 +48,12 @@ Característica: Acceso al portal Claro Empresas
     Y ingresa el número de cuenta "56220783"
     Cuando hace clic normal en el reCAPTCHA usando Firefox
     Entonces el reCAPTCHA debería quedar aprobado en Firefox
+
+  @recaptcha_sesion_persistente
+  Escenario: Resolver reCAPTCHA reutilizando la sesión persistente de Chrome
+    Dado que el usuario abre el portal Claro Empresas
+    Y cierra el modal Información Importante
+    Y selecciona Pago Soluciones Fijas
+    Y ingresa el número de cuenta "56220783"
+    Cuando resuelve el reCAPTCHA usando la sesión persistente
+    Entonces el reCAPTCHA debería quedar aprobado

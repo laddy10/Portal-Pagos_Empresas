@@ -28,3 +28,6 @@ Thumbs.db
 !.env.example
 *.keystore
 *.jks
+
+# Perfil persistente de Chrome (cookies/sesion de la automatizacion)
+perfiles/
