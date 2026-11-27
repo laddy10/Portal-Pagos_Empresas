@@ -16,15 +16,25 @@ public final class PerfilChrome {
 
   /**
    * Carpeta del perfil: {@code -Dperfil.chrome.dir} o {@code
-   * <proyecto>/perfiles/chrome-automatizacion}.
+   * %LOCALAPPDATA%\PortalPagosEmpresas\chrome-automatizacion}.
+   *
+   * <p>Va fuera del proyecto a propósito: si el proyecto está en OneDrive, la sincronización
+   * bloquearía o dañaría los archivos del perfil mientras Chrome los usa.
    */
   public static Path directorio() {
     String configurado = System.getProperty(PROPIEDAD_DIRECTORIO);
-    Path ruta =
-        configurado == null || configurado.trim().isEmpty()
-            ? Paths.get(System.getProperty("user.dir"), "perfiles", "chrome-automatizacion")
-            : Paths.get(configurado.trim());
-    return ruta.toAbsolutePath().normalize();
+    if (configurado != null && !configurado.trim().isEmpty()) {
+      return Paths.get(configurado.trim()).toAbsolutePath().normalize();
+    }
+    String localAppData = System.getenv("LOCALAPPDATA");
+    Path base =
+        localAppData == null || localAppData.trim().isEmpty()
+            ? Paths.get(System.getProperty("user.home"), "AppData", "Local")
+            : Paths.get(localAppData);
+    return base.resolve("PortalPagosEmpresas")
+        .resolve("chrome-automatizacion")
+        .toAbsolutePath()
+        .normalize();
   }
 
   /** Chrome mantiene bloqueado el archivo {@code lockfile} mientras usa el perfil. */
