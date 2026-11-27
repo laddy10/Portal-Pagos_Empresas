@@ -7,8 +7,8 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.concurrent.TimeUnit;
@@ -70,8 +70,7 @@ public final class CapturaEscritorio {
             + "$shell=New-Object -ComObject WScript.Shell;"
             + "if(-not $shell.AppActivate($titulo)){exit 2}";
     String powershell =
-        System.getenv("WINDIR")
-            + "\\System32\\WindowsPowerShell\\v1.0\\powershell.exe";
+        System.getenv("WINDIR") + "\\System32\\WindowsPowerShell\\v1.0\\powershell.exe";
 
     Process proceso =
         new ProcessBuilder(
@@ -92,5 +91,4 @@ public final class CapturaEscritorio {
       throw new IOException("Windows no pudo activar la ventana del navegador controlado");
     }
   }
-
 }

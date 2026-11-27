@@ -24,13 +24,11 @@ public class EdgeRecaptchaDirectoTest {
   private static final int TIEMPO_ESPERA_PORTAL_SEGUNDOS = 10;
   private static final int TIEMPO_ESPERA_RECAPTCHA_SEGUNDOS = 15;
 
-  private static final By MODAL_INFORMACION_IMPORTANTE =
-      By.cssSelector(".modal-dialog.modal-info");
+  private static final By MODAL_INFORMACION_IMPORTANTE = By.cssSelector(".modal-dialog.modal-info");
   private static final By BOTON_ENTENDIDO =
       By.cssSelector("input.class-boton-conf[value='Entendido']");
   private static final By SELECTOR_DE_SERVICIO = By.cssSelector("div#select.select");
-  private static final By CONTENEDOR_DE_OPCIONES =
-      By.cssSelector("div#opciones.opciones");
+  private static final By CONTENEDOR_DE_OPCIONES = By.cssSelector("div#opciones.opciones");
   private static final By OPCION_PAGO_SOLUCIONES_FIJAS =
       By.cssSelector("#opciones a.opcion[data-target='#10001']");
   private static final By PAGO_SOLUCIONES_FIJAS_SELECCIONADO =
@@ -40,8 +38,7 @@ public class EdgeRecaptchaDirectoTest {
   private static final By IFRAME_RECAPTCHA =
       By.cssSelector("iframe[title='reCAPTCHA'][src*='/recaptcha/api2/anchor']");
   private static final By CHECKBOX_RECAPTCHA = By.cssSelector("#recaptcha-anchor");
-  private static final By IFRAME_DESAFIO =
-      By.cssSelector("iframe[src*='/recaptcha/api2/bframe']");
+  private static final By IFRAME_DESAFIO = By.cssSelector("iframe[src*='/recaptcha/api2/bframe']");
 
   @Test
   public void comprobarRecaptchaDirectamenteConEdge() {
@@ -53,8 +50,7 @@ public class EdgeRecaptchaDirectoTest {
 
       EdgeOptions options = new EdgeOptions();
       driver = new EdgeDriver(options);
-      WebDriverWait esperaPortal =
-          new WebDriverWait(driver, TIEMPO_ESPERA_PORTAL_SEGUNDOS);
+      WebDriverWait esperaPortal = new WebDriverWait(driver, TIEMPO_ESPERA_PORTAL_SEGUNDOS);
 
       driver.get(URL_PORTAL_PRE);
 
@@ -80,24 +76,20 @@ public class EdgeRecaptchaDirectoTest {
     String clave = System.getenv(PORTAL_PAGOS_PASSWORD);
 
     if (clave == null || clave.trim().isEmpty()) {
-      throw new IllegalStateException(
-          "No está configurada la variable " + PORTAL_PAGOS_PASSWORD);
+      throw new IllegalStateException("No está configurada la variable " + PORTAL_PAGOS_PASSWORD);
     }
 
     return clave;
   }
 
-  private void cerrarModalInformacionImportante(
-      WebDriver driver, WebDriverWait esperaPortal) {
-    esperaPortal.until(
-        ExpectedConditions.visibilityOfElementLocated(MODAL_INFORMACION_IMPORTANTE));
+  private void cerrarModalInformacionImportante(WebDriver driver, WebDriverWait esperaPortal) {
+    esperaPortal.until(ExpectedConditions.visibilityOfElementLocated(MODAL_INFORMACION_IMPORTANTE));
     esperaPortal.until(ExpectedConditions.elementToBeClickable(BOTON_ENTENDIDO)).click();
     esperaPortal.until(
         ExpectedConditions.invisibilityOfElementLocated(MODAL_INFORMACION_IMPORTANTE));
   }
 
-  private void seleccionarPagoSolucionesFijas(
-      WebDriver driver, WebDriverWait esperaPortal) {
+  private void seleccionarPagoSolucionesFijas(WebDriver driver, WebDriverWait esperaPortal) {
     esperaPortal.until(ExpectedConditions.elementToBeClickable(SELECTOR_DE_SERVICIO)).click();
     esperaPortal.until(ExpectedConditions.visibilityOfElementLocated(CONTENEDOR_DE_OPCIONES));
     esperaPortal
@@ -133,8 +125,7 @@ public class EdgeRecaptchaDirectoTest {
       campoNumeroCuenta.clear();
       campoNumeroCuenta.sendKeys(NUMERO_CUENTA);
     } catch (TimeoutException exception) {
-      throw new IllegalStateException(
-          construirDiagnosticoCampoNumeroCuenta(driver), exception);
+      throw new IllegalStateException(construirDiagnosticoCampoNumeroCuenta(driver), exception);
     }
   }
 
@@ -162,8 +153,7 @@ public class EdgeRecaptchaDirectoTest {
   }
 
   private ResultadoRecaptcha probarClicNormalEnRecaptcha(WebDriver driver) {
-    WebDriverWait esperaRecaptcha =
-        new WebDriverWait(driver, TIEMPO_ESPERA_RECAPTCHA_SEGUNDOS);
+    WebDriverWait esperaRecaptcha = new WebDriverWait(driver, TIEMPO_ESPERA_RECAPTCHA_SEGUNDOS);
 
     try {
       WebElement iframe =
@@ -186,9 +176,7 @@ public class EdgeRecaptchaDirectoTest {
             String ariaChecked =
                 navegador.findElement(CHECKBOX_RECAPTCHA).getAttribute("aria-checked");
 
-            return "true".equalsIgnoreCase(ariaChecked)
-                ? ResultadoRecaptcha.APROBADO
-                : null;
+            return "true".equalsIgnoreCase(ariaChecked) ? ResultadoRecaptcha.APROBADO : null;
           });
     } catch (TimeoutException exception) {
       throw new IllegalStateException(

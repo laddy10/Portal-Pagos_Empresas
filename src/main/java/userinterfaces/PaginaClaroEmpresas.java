@@ -5,7 +5,8 @@ import org.openqa.selenium.By;
 
 public final class PaginaClaroEmpresas {
 
-  public static final String URL = "https://empresaspre.portalpagospre.claro.com.co/phrame.php?action=despliegue_personal&clase=vistasclaro&metodo=pantalla_inicio&empresa=claro&segmento=empresas";
+  public static final String URL =
+      "https://empresaspre.portalpagospre.claro.com.co/phrame.php?action=despliegue_personal&clase=vistasclaro&metodo=pantalla_inicio&empresa=claro&segmento=empresas";
 
   public static final Target CONTENIDO_PRINCIPAL =
       Target.the("contenido principal del portal Claro Empresas")

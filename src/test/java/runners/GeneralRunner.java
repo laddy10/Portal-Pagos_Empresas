@@ -13,7 +13,8 @@ import org.junit.runner.RunWith;
  *   <li>Un escenario: {@code "@recaptcha_sesion_persistente"}
  *   <li>Varios: {@code "@pagos_y_recargas or @seleccion_pago_soluciones_fijas"}
  *   <li>Toda la característica: {@code "@portal_claro_empresas"}
- *   <li>Excluir uno: {@code "@portal_claro_empresas and not @clic_recaptcha_firefox_soluciones_fijas"}
+ *   <li>Excluir uno: {@code "@portal_claro_empresas and
+ *       not @clic_recaptcha_firefox_soluciones_fijas"}
  * </ul>
  *
  * <p>Tags disponibles (ver src/test/resources/features):
@@ -29,8 +30,8 @@ import org.junit.runner.RunWith;
  *   <li>@clic_recaptcha_firefox_soluciones_fijas
  * </ul>
  *
- * <p>Ejecutar: clic derecho sobre esta clase en el IDE &gt; Run, o por consola: {@code .\gradlew.bat
- * clean test --tests runners.GeneralRunner}
+ * <p>Ejecutar: clic derecho sobre esta clase en el IDE &gt; Run, o por consola: {@code
+ * .\gradlew.bat clean test --tests runners.GeneralRunner}
  */
 @RunWith(CucumberWithSerenity.class)
 @CucumberOptions(

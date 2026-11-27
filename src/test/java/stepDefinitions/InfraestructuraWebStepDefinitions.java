@@ -15,8 +15,7 @@ import tasks.AbrirPaginaDePrueba;
 
 public class InfraestructuraWebStepDefinitions {
 
-  private static final String TAG_RECAPTCHA_FIREFOX =
-      "@clic_recaptcha_firefox_soluciones_fijas";
+  private static final String TAG_RECAPTCHA_FIREFOX = "@clic_recaptcha_firefox_soluciones_fijas";
 
   @Before
   public void prepararEscenario(Scenario scenario) {
@@ -27,8 +26,7 @@ public class InfraestructuraWebStepDefinitions {
       // Chrome con perfil persistente: ver drivers.ChromePerfilPersistente
       System.setProperty("webdriver.driver", "provided");
       System.setProperty("webdriver.provided.type", "chromepersistente");
-      System.setProperty(
-          "webdriver.provided.chromepersistente", "drivers.ChromePerfilPersistente");
+      System.setProperty("webdriver.provided.chromepersistente", "drivers.ChromePerfilPersistente");
     } else {
       WebDriverManager.chromedriver().setup();
       System.setProperty("webdriver.driver", "chrome");

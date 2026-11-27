@@ -35,5 +35,58 @@ public final class PaginaPortalPagosEmpresas {
   public static final Target CAMPO_NUMERO_CUENTA =
       Target.the("campo número de cuenta").located(By.cssSelector("#newReference"));
 
+  public static final Target BOTON_AGREGAR =
+      Target.the("botón Agregar cuenta").located(By.id("agregar"));
+
+  public static final Target CUENTA_AGREGADA =
+      Target.the("cuenta agregada {0}")
+          .locatedBy("#contentReferencias #refRow{0} input#ref{0}[value='{0}']");
+
+  public static final Target BOTON_ELIMINAR_CUENTA =
+      Target.the("botón Eliminar cuenta")
+          .located(By.cssSelector("#contentReferencias a[onclick*='eliminaReferencia']"));
+
+  public static final Target BOTON_CONTINUAR =
+      Target.the("botón Continuar").located(By.id("mySubmit_"));
+
+  public static final Target ENCABEZADO_VALOR_A_PAGAR =
+      Target.the("encabezado Valor a pagar")
+          .located(
+              By.xpath(
+                  "//*[not(self::script) and not(self::style)"
+                      + " and contains(normalize-space(.), 'Valor a pagar')"
+                      + " and not(.//*[contains(normalize-space(.), 'Valor a pagar')])]"));
+
+  public static final Target TITULO_DETALLE_DE_TU_PAGO =
+      Target.the("título Detalle de tu pago").located(By.cssSelector("h2.labelEmp-new"));
+
+  public static final Target REFERENCIA_DE_PAGO_EN_DETALLE =
+      Target.the("referencia de pago {0} en Detalle de tu pago")
+          .locatedBy("//label[contains(@class, 'etiquetas') and normalize-space(.)='{0}']");
+
+  public static final Target SELECTOR_MEDIO_DE_PAGO =
+      Target.the("selector de medio de pago (Elige una opción)")
+          .located(
+              By.xpath(
+                  "//div[@id='select' and contains(@class, 'select')]"
+                      + " | //*[self::div or self::button or self::select]"
+                      + "[contains(normalize-space(.), 'Elige una opción')"
+                      + " and not(.//*[contains(normalize-space(.), 'Elige una opción')])]"));
+
+  public static final Target OPCION_MEDIO_PAGO_PSE_NEQUI_DAVIPLATA =
+      Target.the("opción medio de pago PSE - NEQUI - DAVIPLATA")
+          .located(
+              By.xpath(
+                  "//*[@id='opciones']//div[contains(@class, 'contenido-opcion')"
+                      + " and .//img[contains(@src, 'PSE.png')]]"));
+
+  public static final Target MEDIO_PAGO_PSE_SELECCIONADO =
+      Target.the("medio de pago PSE - NEQUI - DAVIPLATA seleccionado")
+          .located(By.cssSelector("#select img[src*='PSE.png']"));
+
+  public static final Target INPUT_FORMA_PAGO =
+      Target.the("campo oculto FORMA_PAGO")
+          .located(By.cssSelector("input#inputSelect[name='FORMA_PAGO']"));
+
   private PaginaPortalPagosEmpresas() {}
 }

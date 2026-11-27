@@ -57,3 +57,14 @@ Característica: Acceso al portal Claro Empresas
     Y ingresa el número de cuenta "56220783"
     Cuando resuelve el reCAPTCHA usando la sesión persistente
     Entonces el reCAPTCHA debería quedar aprobado
+    Cuando agrega la cuenta "56220783"
+    Entonces la cuenta "56220783" debería quedar agregada
+    Cuando hace clic en Continuar hacia Paga en línea
+    Entonces debería ingresar a la pantalla Paga en línea
+    Y deberían mostrarse los textos de detalle del pago:
+      | Valor a pagar - Pago Soluciones Fijas HFC |
+      | Pago total                                |
+      | Detalle de tu pago                        |
+    Y debería mostrarse la referencia de pago "56220783" en el detalle
+    Cuando despliega Elige una opción y selecciona el medio de pago "PSE - NEQUI - DAVIPLATA"
+    Entonces el medio de pago "PSE - NEQUI - DAVIPLATA" debería quedar seleccionado

@@ -20,8 +20,7 @@ public class ProbarRecaptchaEdgeConClicNormal implements Interaction {
   private static final By IFRAME_RECAPTCHA =
       By.cssSelector("iframe[title='reCAPTCHA'][src*='/recaptcha/api2/anchor']");
   private static final By CHECKBOX_RECAPTCHA = By.cssSelector("#recaptcha-anchor");
-  private static final By IFRAME_DESAFIO =
-      By.cssSelector("iframe[src*='/recaptcha/api2/bframe']");
+  private static final By IFRAME_DESAFIO = By.cssSelector("iframe[src*='/recaptcha/api2/bframe']");
 
   public static ProbarRecaptchaEdgeConClicNormal enElCheckbox() {
     return Tasks.instrumented(ProbarRecaptchaEdgeConClicNormal.class);
@@ -74,9 +73,7 @@ public class ProbarRecaptchaEdgeConClicNormal implements Interaction {
                 String ariaChecked =
                     navegador.findElement(CHECKBOX_RECAPTCHA).getAttribute("aria-checked");
 
-                return "true".equalsIgnoreCase(ariaChecked)
-                    ? ResultadoRecaptcha.APROBADO
-                    : null;
+                return "true".equalsIgnoreCase(ariaChecked) ? ResultadoRecaptcha.APROBADO : null;
               });
     } catch (TimeoutException exception) {
       throw new IllegalStateException(

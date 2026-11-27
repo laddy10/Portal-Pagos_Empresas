@@ -13,9 +13,7 @@ public class PagoSolucionesFijasSeleccionado implements Question<Boolean> {
   @Override
   public Boolean answeredBy(Actor actor) {
     boolean opcionSeleccionada =
-        PaginaPortalPagosEmpresas.PAGO_SOLUCIONES_FIJAS_SELECCIONADO
-            .resolveFor(actor)
-            .isVisible();
+        PaginaPortalPagosEmpresas.PAGO_SOLUCIONES_FIJAS_SELECCIONADO.resolveFor(actor).isVisible();
     boolean opcionesOcultas =
         !PaginaPortalPagosEmpresas.CONTENEDOR_DE_OPCIONES.resolveFor(actor).isVisible();
 

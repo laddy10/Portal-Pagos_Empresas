@@ -12,8 +12,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class FirefoxDirectoTest {
 
-  private static final String FIREFOX_BINARY =
-      "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
+  private static final String FIREFOX_BINARY = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
 
   @Test
   public void abrirFirefoxDirectamenteConSelenium() {
@@ -38,8 +37,7 @@ public class FirefoxDirectoTest {
       }
 
       System.out.println(
-          "driverVersion: "
-              + (geckoDriverVersion != null ? geckoDriverVersion : "no disponible"));
+          "driverVersion: " + (geckoDriverVersion != null ? geckoDriverVersion : "no disponible"));
     } finally {
       if (driver != null) {
         driver.quit();

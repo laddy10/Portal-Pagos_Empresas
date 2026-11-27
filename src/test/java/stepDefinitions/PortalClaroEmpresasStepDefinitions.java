@@ -10,18 +10,26 @@ import interactions.ProbarRecaptchaEdgeConClicNormal;
 import interactions.ProbarRecaptchaFirefoxConClicNormal;
 import interactions.ResolverRecaptcha;
 import java.net.URI;
+import java.util.Collections;
+import java.util.List;
 import net.serenitybdd.screenplay.abilities.BrowseTheWeb;
 import net.serenitybdd.screenplay.actors.OnStage;
+import questions.CuentaFueAgregada;
+import questions.MedioDePagoSeleccionado;
+import questions.PagaEnLineaCargo;
 import questions.PagoSolucionesFijasSeleccionado;
 import questions.PortalClaroEmpresasCargo;
 import questions.PortalDePagosEmpresasCargo;
+import questions.TextosFaltantesEnPagaEnLinea;
 import questions.ValorDelCampo;
 import tasks.AbrirPortalClaroEmpresas;
 import tasks.AccederAPagosYRecargas;
+import tasks.AgregarCuenta;
 import tasks.CerrarInformacionImportante;
+import tasks.ContinuarAPagaEnLinea;
 import tasks.IngresarNumeroCuenta;
+import tasks.SeleccionarMedioDePago;
 import tasks.SeleccionarPagoSolucionesFijas;
-import userinterfaces.PaginaClaroEmpresas;
 import userinterfaces.PaginaPortalPagosEmpresas;
 
 public class PortalClaroEmpresasStepDefinitions {
@@ -68,9 +76,7 @@ public class PortalClaroEmpresasStepDefinitions {
         OnStage.theActorInTheSpotlight().asksFor(PortalDePagosEmpresasCargo.correctamente());
 
     assertThat(
-        "El host final debería ser portalpagosempresa.claro.com.co",
-        portalDePagosCargo,
-        is(true));
+        "El host final debería ser portalpagosempresa.claro.com.co", portalDePagosCargo, is(true));
   }
 
   @Cuando("^cierra el modal Información Importante$")
@@ -101,8 +107,7 @@ public class PortalClaroEmpresasStepDefinitions {
 
   @Cuando("^hace clic normal en el reCAPTCHA usando Edge$")
   public void hacerClicNormalEnElRecaptchaUsandoEdge() {
-    OnStage.theActorInTheSpotlight()
-        .attemptsTo(ProbarRecaptchaEdgeConClicNormal.enElCheckbox());
+    OnStage.theActorInTheSpotlight().attemptsTo(ProbarRecaptchaEdgeConClicNormal.enElCheckbox());
   }
 
   @Entonces("^el reCAPTCHA debería quedar aprobado en Edge$")
@@ -111,16 +116,12 @@ public class PortalClaroEmpresasStepDefinitions {
         OnStage.theActorInTheSpotlight()
             .recall(ProbarRecaptchaEdgeConClicNormal.RECAPTCHA_EDGE_APROBADO);
 
-    assertThat(
-        "El reCAPTCHA debería tener aria-checked=true en Edge",
-        recaptchaAprobado,
-        is(true));
+    assertThat("El reCAPTCHA debería tener aria-checked=true en Edge", recaptchaAprobado, is(true));
   }
 
   @Cuando("^hace clic normal en el reCAPTCHA usando Firefox$")
   public void hacerClicNormalEnElRecaptchaUsandoFirefox() {
-    OnStage.theActorInTheSpotlight()
-        .attemptsTo(ProbarRecaptchaFirefoxConClicNormal.enElCheckbox());
+    OnStage.theActorInTheSpotlight().attemptsTo(ProbarRecaptchaFirefoxConClicNormal.enElCheckbox());
   }
 
   @Entonces("^el reCAPTCHA debería quedar aprobado en Firefox$")
@@ -130,9 +131,7 @@ public class PortalClaroEmpresasStepDefinitions {
             .recall(ProbarRecaptchaFirefoxConClicNormal.RECAPTCHA_FIREFOX_APROBADO);
 
     assertThat(
-        "El reCAPTCHA debería tener aria-checked=true en Firefox",
-        recaptchaAprobado,
-        is(true));
+        "El reCAPTCHA debería tener aria-checked=true en Firefox", recaptchaAprobado, is(true));
   }
 
   @Entonces("^el campo número de cuenta debería contener \"([^\"]*)\"$")
@@ -161,5 +160,77 @@ public class PortalClaroEmpresasStepDefinitions {
 
     System.out.println("RECAPTCHA_REQUIRIO_DESAFIO=" + requirioDesafio);
     assertThat("El reCAPTCHA debería tener aria-checked=true", aprobado, is(true));
+  }
+
+  @Cuando("^agrega la cuenta \"([^\"]*)\"$")
+  public void agregarLaCuenta(String numeroCuenta) {
+    OnStage.theActorInTheSpotlight().attemptsTo(AgregarCuenta.conNumero(numeroCuenta));
+  }
+
+  @Entonces("^la cuenta \"([^\"]*)\" debería quedar agregada$")
+  public void verificarCuentaAgregada(String numeroCuenta) {
+    boolean cuentaAgregada =
+        OnStage.theActorInTheSpotlight().asksFor(CuentaFueAgregada.conNumero(numeroCuenta));
+
+    assertThat(
+        "La cuenta " + numeroCuenta + " debería mostrarse agregada con la opción Eliminar",
+        cuentaAgregada,
+        is(true));
+  }
+
+  @Cuando("^hace clic en Continuar hacia Paga en línea$")
+  public void hacerClicEnContinuarHaciaPagaEnLinea() {
+    OnStage.theActorInTheSpotlight().attemptsTo(ContinuarAPagaEnLinea.ahora());
+  }
+
+  @Entonces("^debería ingresar a la pantalla Paga en línea$")
+  public void verificarIngresoAPagaEnLinea() {
+    boolean pagaEnLineaCargo =
+        OnStage.theActorInTheSpotlight().asksFor(PagaEnLineaCargo.correctamente());
+
+    assertThat(
+        "Debería haber ingresado a la pantalla Paga en línea (confirmacion.php)",
+        pagaEnLineaCargo,
+        is(true));
+  }
+
+  @Entonces("^deberían mostrarse los textos de detalle del pago:$")
+  public void verificarTextosDeDetalleDelPago(List<String> textosEsperados) {
+    List<String> faltantes =
+        OnStage.theActorInTheSpotlight()
+            .asksFor(TextosFaltantesEnPagaEnLinea.para(textosEsperados));
+
+    assertThat(
+        "Faltan textos esperados en la pantalla Paga en línea: " + faltantes,
+        faltantes,
+        is(Collections.emptyList()));
+  }
+
+  @Entonces("^debería mostrarse la referencia de pago \"([^\"]*)\" en el detalle$")
+  public void verificarReferenciaDePagoEnElDetalle(String referenciaEsperada) {
+    boolean referenciaVisible =
+        PaginaPortalPagosEmpresas.REFERENCIA_DE_PAGO_EN_DETALLE
+            .of(referenciaEsperada)
+            .resolveFor(OnStage.theActorInTheSpotlight())
+            .isVisible();
+
+    assertThat(
+        "La referencia de pago " + referenciaEsperada + " debería mostrarse en Detalle de tu pago",
+        referenciaVisible,
+        is(true));
+  }
+
+  @Cuando("^despliega Elige una opción y selecciona el medio de pago \"([^\"]*)\"$")
+  public void seleccionarMedioDePago(String medioDePago) {
+    OnStage.theActorInTheSpotlight().attemptsTo(SeleccionarMedioDePago.conNombre(medioDePago));
+  }
+
+  @Entonces("^el medio de pago \"([^\"]*)\" debería quedar seleccionado$")
+  public void verificarMedioDePagoSeleccionado(String medioDePago) {
+    boolean seleccionado =
+        OnStage.theActorInTheSpotlight().asksFor(MedioDePagoSeleccionado.es(medioDePago));
+
+    assertThat(
+        "El medio de pago " + medioDePago + " debería quedar seleccionado", seleccionado, is(true));
   }
 }
