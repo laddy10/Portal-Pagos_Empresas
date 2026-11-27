@@ -68,3 +68,21 @@ Característica: Acceso al portal Claro Empresas
     Y debería mostrarse la referencia de pago "56220783" en el detalle
     Cuando despliega Elige una opción y selecciona el medio de pago "PSE - NEQUI - DAVIPLATA"
     Entonces el medio de pago "PSE - NEQUI - DAVIPLATA" debería quedar seleccionado
+    Cuando hace clic en el botón Confirmar
+    Entonces debería ser direccionado al formulario de pago PSE
+    Y deberían mostrarse los textos del resumen de pago:
+      | ID Transacción                                |
+      | Valor Total (Impuesto Incluido)               |
+      | Descripción Compra: Pago Soluciones Fijas HFC |
+    Cuando diligencia el formulario de pago PSE con los datos:
+      | banco             | Popular                             |
+      | titular           | Laura Alejandra Rosero              |
+      | tipoCliente       | Persona natural                     |
+      | tipoDocumento     | C.C. (Cédula de Ciudadanía)         |
+      | numeroDocumento   | 1020356978                          |
+      | numeroTelefono    | 3102632840                          |
+      | correoElectronico | laddy.sofi@hotmail.com |
+    Cuando hace clic en Confirmar en el formulario de pago PSE
+    Entonces debería ser direccionado al formulario del banco Popular
+    Cuando ingresa el documento del formulario y la contraseña "1234" en el banco
+    Entonces el botón Ingresar del banco debería quedar habilitado

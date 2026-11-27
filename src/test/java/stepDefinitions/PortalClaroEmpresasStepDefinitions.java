@@ -12,9 +12,13 @@ import interactions.ResolverRecaptcha;
 import java.net.URI;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import net.serenitybdd.screenplay.abilities.BrowseTheWeb;
 import net.serenitybdd.screenplay.actors.OnStage;
+import questions.BancoPopularPseCargo;
+import questions.BotonIngresarBancoHabilitado;
 import questions.CuentaFueAgregada;
+import questions.FormularioPagoPseCargo;
 import questions.MedioDePagoSeleccionado;
 import questions.PagaEnLineaCargo;
 import questions.PagoSolucionesFijasSeleccionado;
@@ -26,7 +30,11 @@ import tasks.AbrirPortalClaroEmpresas;
 import tasks.AccederAPagosYRecargas;
 import tasks.AgregarCuenta;
 import tasks.CerrarInformacionImportante;
+import tasks.ConfirmarFormularioPagoPse;
+import tasks.ConfirmarMedioDePago;
 import tasks.ContinuarAPagaEnLinea;
+import tasks.DiligenciarAccesoBancoPopular;
+import tasks.DiligenciarFormularioPagoPse;
 import tasks.IngresarNumeroCuenta;
 import tasks.SeleccionarMedioDePago;
 import tasks.SeleccionarPagoSolucionesFijas;
@@ -232,5 +240,68 @@ public class PortalClaroEmpresasStepDefinitions {
 
     assertThat(
         "El medio de pago " + medioDePago + " debería quedar seleccionado", seleccionado, is(true));
+  }
+
+  @Cuando("^hace clic en el botón Confirmar$")
+  public void hacerClicEnElBotonConfirmar() {
+    OnStage.theActorInTheSpotlight().attemptsTo(ConfirmarMedioDePago.ahora());
+  }
+
+  @Entonces("^debería ser direccionado al formulario de pago PSE$")
+  public void verificarDireccionamientoAlFormularioDePagoPse() {
+    boolean formularioCargo =
+        OnStage.theActorInTheSpotlight().asksFor(FormularioPagoPseCargo.correctamente());
+
+    assertThat(
+        "Debería haberse direccionado al formulario de pago PSE (pagos.php)",
+        formularioCargo,
+        is(true));
+  }
+
+  @Entonces("^deberían mostrarse los textos del resumen de pago:$")
+  public void verificarTextosDelResumenDePago(List<String> textosEsperados) {
+    List<String> faltantes =
+        OnStage.theActorInTheSpotlight()
+            .asksFor(TextosFaltantesEnPagaEnLinea.para(textosEsperados));
+
+    assertThat(
+        "Faltan textos esperados en el resumen del formulario de pago: " + faltantes,
+        faltantes,
+        is(Collections.emptyList()));
+  }
+
+  @Cuando("^diligencia el formulario de pago PSE con los datos:$")
+  public void diligenciarFormularioDePagoPse(Map<String, String> datosFormulario) {
+    OnStage.theActorInTheSpotlight()
+        .attemptsTo(DiligenciarFormularioPagoPse.conDatos(datosFormulario));
+  }
+
+  @Cuando("^hace clic en Confirmar en el formulario de pago PSE$")
+  public void confirmarFormularioDePagoPse() {
+    OnStage.theActorInTheSpotlight().attemptsTo(ConfirmarFormularioPagoPse.ahora());
+  }
+
+  @Entonces("^debería ser direccionado al formulario del banco Popular$")
+  public void verificarDireccionamientoAlBancoPopular() {
+    boolean bancoCargo =
+        OnStage.theActorInTheSpotlight().asksFor(BancoPopularPseCargo.correctamente());
+
+    assertThat(
+        "Debería haberse direccionado al formulario de Banco Popular PSE", bancoCargo, is(true));
+  }
+
+  @Cuando("^ingresa el documento del formulario y la contraseña \"([^\"]*)\" en el banco$")
+  public void ingresarCredencialesEnElBanco(String contrasena) {
+    OnStage.theActorInTheSpotlight()
+        .attemptsTo(DiligenciarAccesoBancoPopular.conContrasena(contrasena));
+  }
+
+  @Entonces("^el botón Ingresar del banco debería quedar habilitado$")
+  public void verificarBotonIngresarHabilitado() {
+    boolean botonHabilitado =
+        OnStage.theActorInTheSpotlight().asksFor(BotonIngresarBancoHabilitado.correctamente());
+
+    assertThat(
+        "El botón Ingresar del banco Popular debería estar habilitado", botonHabilitado, is(true));
   }
 }

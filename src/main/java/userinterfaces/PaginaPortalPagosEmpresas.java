@@ -85,8 +85,11 @@ public final class PaginaPortalPagosEmpresas {
           .located(By.cssSelector("#select img[src*='PSE.png']"));
 
   public static final Target INPUT_FORMA_PAGO =
-      Target.the("campo oculto FORMA_PAGO")
-          .located(By.cssSelector("input#inputSelect[name='FORMA_PAGO']"));
+      Target.the("campo oculto FORMA_PAGO").located(By.name("FORMA_PAGO"));
+
+  public static final Target BOTON_CONFIRMAR_MEDIO_PAGO =
+      Target.the("botón Confirmar medio de pago")
+          .located(By.cssSelector("input#mySubmit_[value='Confirmar']"));
 
   private PaginaPortalPagosEmpresas() {}
 }
