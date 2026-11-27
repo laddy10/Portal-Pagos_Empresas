@@ -17,8 +17,10 @@ El reporte se genera en `target/site/serenity/index.html`.
 
 ## reCAPTCHA con perfil persistente (rama de pruebas)
 
-Chrome se abre con un perfil fijo en `perfiles/chrome-automatizacion` (no temporal/incógnito),
-así las cookies de Google y del portal se conservan entre ejecuciones.
+Chrome se abre con un perfil fijo en `%LOCALAPPDATA%\PortalPagosEmpresas\chrome-automatizacion`
+(no temporal/incógnito), así las cookies de Google y del portal se conservan entre ejecuciones.
+Está fuera del proyecto a propósito: si el proyecto vive en OneDrive, la sincronización dañaría
+el perfil mientras Chrome lo usa.
 
 Paso previo (una sola vez): iniciar sesión con la cuenta de Google en ese perfil, abriéndolo
 con Chrome normal (sin Selenium, porque Google bloquea el login en navegadores automatizados):
@@ -28,7 +30,11 @@ con Chrome normal (sin Selenium, porque Google bloquea el login en navegadores a
 3. Cerrar esa ventana de Chrome con la X.
 
 La ventana negra indica si el perfil ya tiene cuenta de Google. La sesión dura semanas o meses;
-solo hay que repetirlo si el captcha vuelve a pedir imágenes o si se borra `perfiles\`.
+solo hay que repetirlo si el captcha vuelve a pedir imágenes o si se borra esa carpeta.
+
+Cambiar de cuenta de Google: cerrar el Chrome de la automatización, borrar la carpeta
+`%LOCALAPPDATA%\PortalPagosEmpresas\chrome-automatizacion` y volver a ejecutar
+`ejecutar-pruebas.bat` (pedirá el inicio de sesión).
 
 Nota: desde Chrome 136 no se puede automatizar el perfil por defecto (`...\Chrome\User Data`),
 por eso se usa un perfil dedicado con la sesión de Google iniciada.
